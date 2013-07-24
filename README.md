@@ -1,10 +1,10 @@
 ArcPyTweetSearch
 ================
 *****
-<b>This could no longer works due to the Twitter API 1 being depreciated. Updates coming soon.</b>
+<b>This toolbox no longer works due to the Twitter API 1 being depreciated. Updates coming soon. Twitter now requires a set of authentication keys to be provided with each search.</b>
 *****
 
-Simple toobox that uses ArcPy, json, and urllib2 to search the twitter api using a lat, long, search string, and search radius and import to a gdb.
+Simple toobox that uses ArcPy, json, and urllib2 to search the twitter api using a lat, long, search string, and search radius then import to a gdb.
 
 Included is the toolbox, python script, and the validation.py.
 
