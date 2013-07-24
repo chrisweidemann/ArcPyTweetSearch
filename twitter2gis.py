@@ -20,7 +20,7 @@ import arcpy
 import urllib2
 import json
 
-#set some defaults for the search
+#grab inputs from toolbox window
 query = arcpy.GetParameterAsText(0)
 searchlat = arcpy.GetParameterAsText(1)
 searchlong = arcpy.GetParameterAsText(2)
@@ -34,7 +34,7 @@ arcpy.env.workspace = "C:/"
 
  
 def db_set():
-
+    #These are the fields to be created
     FIELDS = [
         ['tweet_id', 'TEXT','NON_NULLABLE','REQUIRED'],
         ['text','TEXT','NON_NULLABLE','REQUIRED'],
@@ -47,6 +47,7 @@ def db_set():
         ['city','TEXT','NON_NULLABLE','NON_REQUIRED']
     ]
 
+    #Check to see if these have already been created
     try:
         arcpy.CreateFileGDB_management(arcpy.env.workspace, Twitter)
     except:
@@ -60,7 +61,9 @@ def db_set():
             arcpy.AddField_management("Twitter.gdb/Tweets",field_name, field_type, "#", "#", "#", "#", NULLABLE, REQUIRED,"#")
         except:
             pass
-   
+
+#grab the tweets from Twitters's API
+#This is the part of the code that's broken. Twitter now requires authentication for API access. At some point I'll fix it.
 def parse_tweets(query, searchlat, searchlong, radius):
     url = "http://search.twitter.com/search.json?q="+query+"&include_entities=true&geocode="+searchlat+","+ searchlong + "," + radius
     tweet_data_json = urllib2.urlopen(url).read()
@@ -69,14 +72,14 @@ def parse_tweets(query, searchlat, searchlong, radius):
     results = []
     for tweet in tweet_data['results']:
         results.append([
-            tweet['id'],                # 0
-            tweet['text'],              # 1    
-            tweet['created_at'],        # 2
-            query,                      # 3
-            tweet['latitude']           # 4
-            tweet['longitude']          # 5 
-            tweet['from_user'],         # 6
-            tweet['from_user_name']     # 7
+            tweet['id'],                
+            tweet['text'],                  
+            tweet['created_at'],        
+            query,                      
+            tweet['latitude']           
+            tweet['longitude']           
+            tweet['from_user'],         
+            tweet['from_user_name']     
         ])
  
     return results
